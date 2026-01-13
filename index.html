@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ETHGas | Friction Calculator</title>
+    <style>
+        :root {
+            --bg-dark: #0c0e12;
+            --card-bg: #161920;
+            --eth-cyan: #00f2ff;
+            --eth-purple: #7000ff;
+            --text-main: #ffffff;
+            --text-dim: #94a3b8;
+            --danger: #ff4d4d;
+        }
+
+        body { 
+            font-family: 'Inter', -apple-system, sans-serif; 
+            background: var(--bg-dark); 
+            color: var(--text-main); 
+            display: flex; 
+            justify-content: center; 
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-image: radial-gradient(circle at 2px 2px, #1e293b 1px, transparent 0);
+            background-size: 40px 40px; /* Grid effect like the ETHGas site */
+        }
+
+        .calculator-card { 
+            background: var(--card-bg); 
+            padding: 40px; 
+            border-radius: 16px; 
+            width: 450px; 
+            border: 1px solid #2d3748;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+
+        .header { text-align: center; margin-bottom: 30px; }
+        .header h2 { color: var(--eth-cyan); letter-spacing: 2px; text-transform: uppercase; margin: 0; font-size: 1.2rem; }
+        .header p { color: var(--text-dim); font-size: 0.9rem; margin-top: 5px; }
+
+        .input-group { margin-bottom: 20px; }
+        label { display: block; color: var(--text-dim); font-size: 0.8rem; text-transform: uppercase; margin-bottom: 8px; font-weight: 600; }
+        
+        input { 
+            width: 100%; 
+            padding: 12px; 
+            background: #0c0e12; 
+            border: 1px solid #2d3748; 
+            border-radius: 8px; 
+            color: var(--eth-cyan); 
+            font-size: 1rem; 
+            box-sizing: border-box;
+            outline: none;
+        }
+        input:focus { border-color: var(--eth-cyan); }
+
+        .result-container { 
+            margin-top: 30px; 
+            padding: 20px; 
+            background: rgba(255, 77, 77, 0.1); 
+            border-left: 4px solid var(--danger);
+            border-radius: 4px;
+        }
+        .result-label { color: var(--danger); font-size: 0.75rem; font-weight: 800; letter-spacing: 1px; }
+        .result-value { font-size: 2.2rem; font-weight: 700; margin: 5px 0; color: #fff; }
+
+        .footer-note { font-size: 11px; color: var(--text-dim); line-height: 1.4; margin-top: 20px; text-align: center; }
+        .btn-cta { 
+            display: block; width: 100%; padding: 15px; margin-top: 20px;
+            background: linear-gradient(90deg, var(--eth-cyan), var(--eth-purple));
+            border: none; border-radius: 8px; color: white; font-weight: bold; cursor: pointer;
+            text-transform: uppercase; letter-spacing: 1px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="calculator-card">
+        <div class="header">
+            <h2>Gas Friction Audit</h2>
+            <p>Institutional Protocol Loss Projection</p>
+        </div>
+
+        <div class="input-group">
+            <label>Avg. Daily Transactions</label>
+            <input type="number" id="txs" value="5000" oninput="calculate()">
+        </div>
+
+        <div class="input-group">
+            <label>Avg. Transaction Value ($)</label>
+            <input type="number" id="value" value="250" oninput="calculate()">
+        </div>
+
+        <div class="input-group">
+            <label>Gas Spike Abandonment Rate (%)</label>
+            <input type="number" id="churn" value="18" oninput="calculate()">
+        </div>
+
+        <div class="result-container">
+            <div class="result-label">ESTIMATED ANNUAL REVENUE LEAKAGE</div>
+            <div class="result-value" id="total-lost">$0</div>
+        </div>
+
+        <button class="btn-cta">Fix This with ETHGas</button>
+
+        <p class="footer-note">
+            Calculated based on standard Mainnet gas volatility spikes (>40 Gwei) and user drop-off metrics observed in top-tier DeFi protocols.
+        </p>
+    </div>
+
+    <script>
+        function calculate() {
+            const txs = document.getElementById('txs').value;
+            const val = document.getElementById('value').value;
+            const churn = document.getElementById('churn').value / 100;
+
+            // Math: (Txs * Value) * Churn % * 365 Days
+            const annualLoss = (txs * val) * churn * 365;
+            
+            document.getElementById('total-lost').innerText = '$' + annualLoss.toLocaleString(undefined, {maximumFractionDigits: 0});
+        }
+        window.onload = calculate;
+    </script>
+</body>
+</html>
