@@ -25,7 +25,7 @@
             min-height: 100vh;
             margin: 0;
             background-image: radial-gradient(circle at 2px 2px, #1e293b 1px, transparent 0);
-            background-size: 40px 40px; /* Grid effect like the ETHGas site */
+            background-size: 40px 40px;
         }
 
         .calculator-card { 
@@ -68,12 +68,17 @@
         .result-value { font-size: 2.2rem; font-weight: 700; margin: 5px 0; color: #fff; }
 
         .footer-note { font-size: 11px; color: var(--text-dim); line-height: 1.4; margin-top: 20px; text-align: center; }
+        
+        /* Fixed Button Styling */
+        .cta-link { text-decoration: none; }
         .btn-cta { 
             display: block; width: 100%; padding: 15px; margin-top: 20px;
             background: linear-gradient(90deg, var(--eth-cyan), var(--eth-purple));
             border: none; border-radius: 8px; color: white; font-weight: bold; cursor: pointer;
-            text-transform: uppercase; letter-spacing: 1px;
+            text-transform: uppercase; letter-spacing: 1px; text-align: center;
+            transition: opacity 0.2s;
         }
+        .btn-cta:hover { opacity: 0.9; }
     </style>
 </head>
 <body>
@@ -104,7 +109,9 @@
             <div class="result-value" id="total-lost">$0</div>
         </div>
 
-        <button class="btn-cta">Fix This with ETHGas</button>
+        <a href="https://www.ethgas.com/" target="_blank" class="cta-link">
+            <button class="btn-cta">Fix This with ETHGas</button>
+        </a>
 
         <p class="footer-note">
             Calculated based on standard Mainnet gas volatility spikes (>40 Gwei) and user drop-off metrics observed in top-tier DeFi protocols.
@@ -117,9 +124,7 @@
             const val = document.getElementById('value').value;
             const churn = document.getElementById('churn').value / 100;
 
-            // Math: (Txs * Value) * Churn % * 365 Days
             const annualLoss = (txs * val) * churn * 365;
-            
             document.getElementById('total-lost').innerText = '$' + annualLoss.toLocaleString(undefined, {maximumFractionDigits: 0});
         }
         window.onload = calculate;
